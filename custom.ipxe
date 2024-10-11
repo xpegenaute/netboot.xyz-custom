@@ -21,8 +21,9 @@ imgargs vmlinuz put_kernel_img_args_here
 boot || goto custom_exit
 
 :option_two
-kernel https://download.sys.truenas.net/TrueNAS-ElectricEel-RC/24.10-RC.2/TrueNAS-SCALE-24.10-RC.2.iso raw iso
+kernel memdisk
 initrd https://download.sys.truenas.net/TrueNAS-ElectricEel-RC/24.10-RC.2/TrueNAS-SCALE-24.10-RC.2.iso
+append iso raw
 chian memdisk iso || goto failed
 # initrd http://path.to/iso
 boot || goto custom_exit
