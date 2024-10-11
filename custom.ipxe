@@ -9,9 +9,6 @@ menu This is a Test Menu
 item --gap This is the first sub menu
 item option_one ${space} Loading a kernel and initrd
 item option_two ${space} Loading an ISO
-item --gap This is a second sub menu
-item option_three ${space} Loads another custom sub menu
-item option_four ${space} This is option four
 choose custom_choice || goto custom_exit
 echo ${cls}
 goto ${custom_choice}
@@ -25,12 +22,15 @@ boot || goto custom_exit
 
 :option_two
 kernel https://download.sys.truenas.net/TrueNAS-ElectricEel-RC/24.10-RC.2/TrueNAS-SCALE-24.10-RC.2.iso raw iso
+initrd https://download.sys.truenas.net/TrueNAS-ElectricEel-RC/24.10-RC.2/TrueNAS-SCALE-24.10-RC.2.iso
+chian memdisk iso || goto failed
 # initrd http://path.to/iso
 boot || goto custom_exit
 
-:option_three
-echo Chains into another menu...
-chain https://raw.githubusercontent.com/${github_user}/netboot.xyz-custom/master/custom1.ipxe || goto custom
+
+:failed
+echo Booting failed, dropping to shell
+goto shell
 
 :custom_exit
 chain utils.ipxe
